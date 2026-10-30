@@ -1,9 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hisab Khata - হিসাব খাতা</title>
+    <title>হিসাব খাতা - Hisab Khata</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
@@ -13,127 +14,131 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-indigo-600 text-white shadow-md p-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">হিসাব খাতা (Hisab Khata)</h1>
-        <div id="user-info" class="hidden flex items-center space-x-2">
-            <span id="user-name" class="text-sm font-medium"></span>
-            <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded transition">লগআউট</button>
-        </div>
+    <header class="bg-indigo-600 text-white p-4 shadow-md text-center">
+        <h1 class="text-xl font-bold">আমার হিসাব খাতা</h1>
+        <p class="text-xs text-indigo-200">লগইন ঝামেলা ছাড়াই নিরাপদ হিসাব রক্ষণ</p>
     </header>
 
-    <!-- Main Section -->
-    <main class="flex-grow container mx-auto p-4 max-w-md">
-
-        <!-- Login Section -->
-        <div id="login-section" class="flex flex-col items-center justify-center h-[70vh] space-y-4">
-            <div class="bg-white p-8 rounded-2xl shadow-lg text-center w-full max-w-sm">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">স্বাগতম!</h2>
-                <p class="text-gray-500 text-sm mb-6">আপনার হিসাব রাখতে গুগল দিয়ে লগইন করুন</p>
-                <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg p-3 text-gray-700 font-medium hover:bg-gray-50 shadow-sm transition">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                    </svg>
-                    গুগল দিয়ে সাইন-ইন করুন
-                </button>
-            </div>
+    <!-- Main Container -->
+    <main class="flex-1 max-w-md w-full mx-auto p-4">
+        
+        <!-- Status Bar -->
+        <div id="status-box" class="bg-yellow-100 text-yellow-800 p-2 rounded mb-4 text-center text-sm">
+            ফায়ারবেসের সাথে সংযোগ স্থাপন করা হচ্ছে...
         </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="hidden space-y-4">
-            <div class="flex bg-white rounded-lg shadow p-1 justify-between text-sm font-medium text-gray-600">
-                <button onclick="switchTab('hisab')" id="tab-btn-hisab" class="flex-1 py-2 text-center rounded-md bg-indigo-50 text-indigo-600">হিসাব</button>
-                <button onclick="switchTab('cash')" id="tab-btn-cash" class="flex-1 py-2 text-center rounded-md">ক্যাশ</button>
-                <button onclick="switchTab('monthly')" id="tab-btn-monthly" class="flex-1 py-2 text-center rounded-md">মাসিক আয় ব্যয়</button>
-                <button onclick="switchTab('report')" id="tab-btn-report" class="flex-1 py-2 text-center rounded-md">রিপোর্ট</button>
-            </div>
-
-            <div id="tab-hisab" class="tab-content bg-white p-4 rounded-xl shadow">
-                <h3 class="font-bold text-gray-700 mb-2">হিসাব বিবরণী</h3>
-                <p class="text-sm text-gray-500">কাচা বাজার, মেডিসিন, রুম ভাড়া ও পরিবারের খরচ এখানে যোগ করুন।</p>
-            </div>
-            <div id="tab-cash" class="tab-content bg-white p-4 rounded-xl shadow hidden">
-                <h3 class="font-bold text-gray-700 mb-2">ক্যাশ ব্যালেন্স</h3>
-                <p class="text-sm text-gray-500">বর্তমান ক্যাশ হিসাব ও লেনদেন।</p>
-            </div>
-            <div id="tab-monthly" class="tab-content bg-white p-4 rounded-xl shadow hidden">
-                <h3 class="font-bold text-gray-700 mb-2">মাসিক আয় ও ব্যয়</h3>
-                <p class="text-sm text-gray-500">মাসের মোট আয় এবং খরচের তালিকা।</p>
-            </div>
-            <div id="tab-report" class="tab-content bg-white p-4 rounded-xl shadow hidden">
-                <h3 class="font-bold text-gray-700 mb-2">রিপোর্ট</h3>
-                <p class="text-sm text-gray-500">সার্বিক হিসাবের সামারি।</p>
-            </div>
+        <!-- Add Transaction Form -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <h2 class="text-lg font-semibold mb-3 text-gray-700">নতুন হিসাব যোগ করুন</h2>
+            <form id="transaction-form" onsubmit="addTransaction(event)">
+                <div class="mb-3">
+                    <label class="block text-sm text-gray-600 mb-1">বিবরণ (যেমন: বাজার খরচ)</label>
+                    <input type="text" id="desc" required class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm text-gray-600 mb-1">টাকার পরিমাণ</label>
+                    <input type="number" id="amount" required class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm text-gray-600 mb-1">ধরণ</label>
+                    <select id="type" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="income">आय (Income)</option>
+                        <option value="expense" selected>ব্যয় (Expense)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700">সেভ করুন</button>
+            </form>
         </div>
 
+        <!-- Transaction History -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-3 text-gray-700">লেনদেনের তালিকা</h2>
+            <ul id="transaction-list" class="divide-y divide-gray-200">
+                <li class="py-2 text-center text-gray-400 text-sm">কোনো ডেটা নেই</li>
+            </ul>
+        </div>
     </main>
 
-    <!-- Firebase Script -->
+    <!-- Firebase SDKs (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addFirestoreData, getDocs, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // আপনার ফায়ারবেস কনফিগারেশন
         const firebaseConfig = {
-          apiKey: "AIzaSyDu5sL43vAmmoEDEXo2veZ",
-          authDomain: "hisab-khata-db0c0.firebaseapp.com",
-          projectId: "hisab-khata-db0c0",
-          storageBucket: "hisab-khata-db0c0.firebasestorage.app",
-          messagingSenderId: "320687165592",
-          appId: "1:320687165592:web:ee0cb7a01b",
-          measurementId: "G-X0JC38GRQF"
+            apiKey: "AIzaSyDu5l43vAm...", // আপনার সম্পূর্ণ কী এখানে বসবে
+            authDomain: "hisab-khata-d12af.firebaseapp.com",
+            projectId: "hisab-khata-d12af",
+            storageBucket: "hisab-khata-d12af.appspot.com",
+            messagingSenderId: "320687165592",
+            appId: "1:320687165592:web:..."
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+        const db = getFirestore(app);
 
-        // Catch redirect login result
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result && result.user) {
-                    console.log("Logged in:", result.user);
-                }
+        // অটোমেটিক গেস্ট লগইন (সাইন-ইন ছাড়াই ফায়ারবেস কানেকশন)
+        signInAnonymously(auth)
+            .then(() => {
+                document.getElementById('status-box').innerText = "অনলাইন ও সংযুক্ত (ফায়ারবেস সুরক্ষিত)";
+                document.getElementById('status-box').className = "bg-green-100 text-green-800 p-2 rounded mb-4 text-center text-sm";
+                loadTransactions();
             })
             .catch((error) => {
-                alert("Login Error: " + error.message);
+                document.getElementById('status-box').innerText = "সংযোগ ত্রুটি: " + error.message;
+                document.getElementById('status-box').className = "bg-red-100 text-red-800 p-2 rounded mb-4 text-center text-sm";
             });
 
-        window.loginWithGoogle = function() {
-            signInWithRedirect(auth, provider);
-        };
+        // ডেটা সেভ করার ফাংশন
+        window.addTransaction = async function(e) {
+            e.preventDefault();
+            const desc = document.getElementById('desc').value;
+            const amount = document.getElementById('amount').value;
+            const type = document.getElementById('type').value;
 
-        window.logout = function() {
-            signOut(auth);
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            const loginSection = document.getElementById('login-section');
-            const dashboardSection = document.getElementById('dashboard-section');
-            const userInfo = document.getElementById('user-info');
-            const userName = document.getElementById('user-name');
-
-            if (user) {
-                loginSection.classList.add('hidden');
-                dashboardSection.classList.remove('hidden');
-                userInfo.classList.remove('hidden');
-                userName.textContent = user.displayName || 'ব্যবহারকারী';
-            } else {
-                loginSection.classList.remove('hidden');
-                dashboardSection.classList.add('hidden');
-                userInfo.classList.add('hidden');
+            try {
+                await addDoc(collection(db, "transactions"), {
+                    desc: desc,
+                    amount: Number(amount),
+                    type: type,
+                    date: new Date().toLocaleDateString()
+                });
+                document.getElementById('transaction-form').reset();
+                loadTransactions();
+            } catch (err) {
+                alert("ডেটা সেভ করতে সমস্যা হয়েছে: " + err.message);
             }
-        });
+        }
 
-        window.switchTab = function(tabName) {
-            ['hisab', 'cash', 'monthly', 'report'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).classList.remove('bg-indigo-50', 'text-indigo-600');
-            });
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tabName}`).classList.add('bg-indigo-50', 'text-indigo-600');
-        };
+        // ডেটা লোড করার ফাংশন
+        async function loadTransactions() {
+            const listEl = document.getElementById('transaction-list');
+            listEl.innerHTML = '<li class="py-2 text-center text-gray-400 text-sm">লোড হচ্ছে...</li>';
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "transactions"));
+                listEl.innerHTML = '';
+                if(querySnapshot.empty) {
+                    listEl.innerHTML = '<li class="py-2 text-center text-gray-400 text-sm">কোনো ডেটা পাওয়া যায়নি</li>';
+                    return;
+                }
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const color = data.type === 'income' ? 'text-green-600' : 'text-red-600';
+                    listEl.innerHTML += `
+                        <li class="py-2 flex justify-between items-center">
+                            <span>${data.desc} (${data.date})</span>
+                            <span class="${color} font-bold">${data.amount} ৳</span>
+                        </li>
+                    `;
+                });
+            } catch (err) {
+                listEl.innerHTML = '<li class="py-2 text-center text-red-400 text-sm">ডেটা লোড করতে সমস্যা হয়েছে</li>';
+            }
+        }
     </script>
 </body>
 </html>
